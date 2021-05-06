@@ -135,6 +135,10 @@ void RoadMap::Town::addRoad(int i) {
 }
 
 //CLASS ROAD
+int RoadMap::Road::getIndex() const {
+	return _index;
+}
+
 string RoadMap::Road::getTown1Name() const {
 	return _town1->getName();
 }
@@ -143,12 +147,12 @@ string RoadMap::Road::getTown2Name() const {
 	return _town2->getName();
 }
 
-bool RoadMap::Road::hasBridge() const {
-	return _hasBridge;
+float RoadMap::Road::getLength() const {
+	return _length;
 }
 
-int RoadMap::Road::getIndex() const {
-	return _index;
+bool RoadMap::Road::hasBridge() const {
+	return _hasBridge;
 }
 
 void RoadMap::Road::setIndex(int i) {

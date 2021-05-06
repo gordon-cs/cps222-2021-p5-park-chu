@@ -63,19 +63,19 @@ private:
 		int getIndex() const;
 		string getTown1Name() const;
 		string getTown2Name() const;
-		long getLength() const;
+		float getLength() const;
 		bool hasBridge() const;
 
 		//Mutator
 		void setIndex(int i);
-		void setLength(long l);
+		void setLength(float l);
 		void setTown1(Town* town1);
 		void setTown2(Town* town2);
 		void setHasBridge(bool hasBridge);
 
 	private:
 		int _index;
-		long _length;
+		float _length;
 		Town* _town1;
 		Town* _town2;
 		bool _hasBridge;

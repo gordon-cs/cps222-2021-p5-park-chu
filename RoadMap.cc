@@ -19,9 +19,8 @@ void RoadMap::print() const {
 	cout << "The input data is:" << endl;
 	cout << endl;
 
-	for (auto it = _towns.cbegin(); it < _towns.size(); it) {
+	for (auto it = _towns.cbegin(); it < _towns.size(); ++it) {
 
-		it++;
 		cout << *it->getName() << endl;
 
 		for (int i = 0; i < *it->getRoadNumber(); i++) {
@@ -86,4 +85,24 @@ string RoadMap::Road::getTown2Name() const {
 
 bool RoadMap::Road::hasBridge() const {
 	return _hasBridge;
+}
+
+void RoadMap::Road::setIndex(int i) {
+	_index = i;
+}
+
+void RoadMap::Road::setLength(long l) {
+	_length = l;
+}
+
+void RoadMap::Road::setTown1(Town* town1) {
+	_town1 = town1;
+}
+
+void RoadMap::Road::setTown2(Town* town2) {
+	_town2 = town2;
+}
+
+void RoadMap::Road::setHasBridge(bool hasBridge) {
+	_hasBridge = hasBridge;
 }

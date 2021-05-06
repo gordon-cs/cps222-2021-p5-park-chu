@@ -20,6 +20,7 @@ public:
 	void getRoad(Road* road, int i) const;
 
 	void print() const;
+	void printShortest(string townName) const;
 
 	
 

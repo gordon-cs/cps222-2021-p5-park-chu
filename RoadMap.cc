@@ -29,7 +29,7 @@ void RoadMap::print() const {
 			cout << "       "
 				<< (*it->getName() == thisRoad->getTown1Name() ?
 					thisRoad->getTown2Name() : thisRoad->getTown1Name())
-				<< " " << thisRoad->getLength() << " mi"
+				<< " " << (string)thisRoad->getLength() << " mi"
 				<< (thisRoad->hasBridge() ? " via bridge" : "") << endl;
 		}
 	}
@@ -41,11 +41,30 @@ void RoadMap::printShortest(string townName) const {
 	cout << "The shortest paths from Salem are:" << endl;
 	cout << endl;
 
-	for (auto it = _towns.cbegin(); )
+	for (int i = 0; i < *it->getRoadNumber(); i++) {
+
+		
+	}
 }
 
 void RoadMap::getRoad(Road* road, int i) const {
-	road = _roads[i];
+	auto road_front = _roads.cbegin();
+
+	while (road_front->getIndex() != i) {
+		road_front++;
+	}
+
+	road = *road_front;
+}
+
+void RoadMap::getTown(Town* town, string townName) const {
+	auto town_front = _towns.cbegin();
+
+	while (town_front->getName() != townName) {
+		town_front++;
+	}
+
+	town = *town_front;
 }
 
 //CLASS TOWN
@@ -85,6 +104,10 @@ string RoadMap::Road::getTown2Name() const {
 
 bool RoadMap::Road::hasBridge() const {
 	return _hasBridge;
+}
+
+int RoadMap::Road::getIndex() const {
+	return _index;
 }
 
 void RoadMap::Road::setIndex(int i) {

@@ -18,6 +18,7 @@ public:
 	int getNewRoadIndex();
 
 	void getRoad(Road* road, int i) const;
+	void getTown(Town* town, string townName) const;
 
 	void print() const;
 	void printShortest(string townName) const;
@@ -37,15 +38,13 @@ public:
 		//Constructor
 		Town();
 
-		//get
+		//Accessor
 		string getName() const;
 		int getRoadNumber() const;
 		
 		int getRoad(int i) const;
 
-		//......
-
-		//set
+		//Mutator
 		void setName(string name);
 		void addRoad(int i);
 
@@ -58,13 +57,14 @@ public:
 	class Road {
 
 	public:
-		//GET
+		//Accessor
+		int getIndex() const;
 		string getTown1Name() const;
 		string getTown2Name() const;
 		long getLength() const;
 		bool hasBridge() const;
 
-		//SET
+		//Mutator
 		void setIndex(int i);
 		void setLength(long l);
 		void setTown1(Town* town1);

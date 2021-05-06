@@ -8,6 +8,50 @@ using std::list;
 using std::cout;
 using std::endl;
 
+RoadMap::RoadMap (std::istream &cin) {
+	Town *town = new Town();
+	Road *road = new Road();
+	string townName;
+	string roadStartTown;
+	string roadEndTown;
+	char bridge;
+	float roadLength;
+	int _numRoad;
+	int _numTown;
+
+	cin >> _numRoad >> _numTown;
+
+	for (int i = 0; i < _numTown; i++) {
+		cin >> townName;
+		town -> setName(townName);
+		_towns.push_back(*town);
+	}
+
+	for (int i = 0; i < _numRoad; i++) {
+		cin >> roadStartTown >> roadEndTown >> bridge >> roadLength;
+
+		road -> setIndex(getNewRoadIndex());
+
+		getTown(town, roadStartTown);
+		road -> setTown1(town);
+
+		getTown(town, roadEndTown);
+		road -> setTown2(town);
+
+		if (bridge == 'B') {
+			road -> setHasBridge(true);
+		}
+
+		else if (bridge == 'N') {
+			road -> setHasBridge(false);
+		}
+
+		road -> setLength(roadLength);
+
+		_roads.push_back(*road);
+	}
+}
+
 int RoadMap::getNewRoadIndex() {
 	roadNumber++; 
 	return roadNumber;
@@ -90,9 +134,6 @@ void RoadMap::Town::addRoad(int i) {
 	_townMap.push_back(i);
 }
 
-
-//......
-
 //CLASS ROAD
 string RoadMap::Road::getTown1Name() const {
 	return _town1->getName();
@@ -114,7 +155,7 @@ void RoadMap::Road::setIndex(int i) {
 	_index = i;
 }
 
-void RoadMap::Road::setLength(long l) {
+void RoadMap::Road::setLength(float l) {
 	_length = l;
 }
 

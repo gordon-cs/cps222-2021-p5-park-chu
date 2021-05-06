@@ -15,10 +15,11 @@ public:
 	class Town;
 	class Road;
 
-	//getNewRoadIndex	roadNumber++; return roadNumber;
 	int getNewRoadIndex();
 
 	void getRoad(Road* road, int i) const;
+
+	void print() const;
 
 	
 
@@ -39,7 +40,7 @@ public:
 		string getName() const;
 		int getRoadNumber() const;
 		
-		bool hasRoadTo(string town);
+		int getRoad(int i) const;
 
 		//......
 
@@ -56,10 +57,14 @@ public:
 	class Road {
 
 	public:
-		bool hasTown(string town);
+		string getTown1Name() const;
+		string getTown2Name() const;
+		long getLength() const;
+		bool hasBridge() const;
 
 	private:
 		int _index;
+		long _length;
 		Town* _town1;
 		Town* _town2;
 		bool _hasBridge;

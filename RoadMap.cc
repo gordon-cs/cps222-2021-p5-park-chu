@@ -5,12 +5,35 @@
 #include <list>
 using std::string;
 using std::list;
+using std::cout;
+using std::endl;
 
 int RoadMap::getNewRoadIndex() {
-
+	roadNumber++; 
+	return roadNumber;
 }
 
+void RoadMap::print() const {
+	Road* thisRoad = new Road();
 
+	cout << "The input data is:" << endl;
+	cout << endl;
+
+	for (auto it = _towns.cbegin(); i < _towns.size(); ++it) {
+
+		cout << *it->getName() << endl;
+
+		for (int i = 0; i < *it->getRoadNumber(); i++) {
+
+			getRoad(thisRoad, *it->getRoad(i));
+			cout << "       "
+				<< (*it->getName() == thisRoad->getTown1Name() ?
+					thisRoad->getTown2Name() : thisRoad->getTown1Name())
+				<< " " << thisRoad->getLength() << " mi"
+				<< (thisRoad->hasBridge() ? " via bridge" : "") << endl;
+		}
+	}
+}
 
 void RoadMap::getRoad(Road* road, int i) const {
 	road = _roads[i];
@@ -25,15 +48,10 @@ int RoadMap::Town::getRoadNumber() const {
 	return _townMap.size();
 }
 
-bool RoadMap::Town::hasRoadTo(string town) {
-	int size = _townMap.size();
-	Road* currentRoad = new Road();
-	for (int i = 0; i < size; i++) {
-		getRoad(currentRoad, i);
-		if (currentRoad.hasTown(town))
-			return true;
-	}
-	return false;
+int RoadMap::Town::getRoad(int i) const {
+	auto townmap_front = _townMap.cbegin();
+	std::advance(townmap_front, ++i);
+	return *townmap_front;
 }
 
 void RoadMap::Town::setName(string name) {
@@ -48,9 +66,14 @@ void RoadMap::Town::addRoad(int i) {
 //......
 
 //CLASS ROAD
-bool RoadMap::Road::hasTown(string town) {
-	if (_town1 == town || _town2 == town)
-		return true;
-	else
-		return false;
+string RoadMap::Road::getTown1Name() const {
+	return _town1->getName();
+}
+
+string RoadMap::Road::getTown2Name() const {
+	return _town2->getName();
+}
+
+bool RoadMap::Road::hasBridge() const {
+	return _hasBridge;
 }

@@ -5,12 +5,13 @@
 using std::string;
 using std::list;
 
+/* Road Map */
 class RoadMap {
 
 public:
 
 	//Constructor
-	RoadMap();
+	RoadMap (std::istream &cin);
 
 	class Town;
 	class Road;
@@ -30,7 +31,6 @@ private:
 	list<Town> _towns;
 	list<Road> _roads;
 
-public:
 	class Town {
 
 	public:
@@ -56,6 +56,8 @@ public:
 
 	//ROAD
 	class Road {
+		/* Constructor */
+		//Road()
 
 	public:
 		//GET

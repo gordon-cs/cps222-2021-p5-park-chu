@@ -58,10 +58,18 @@ public:
 	class Road {
 
 	public:
+		//GET
 		string getTown1Name() const;
 		string getTown2Name() const;
 		long getLength() const;
 		bool hasBridge() const;
+
+		//SET
+		void setIndex(int i);
+		void setLength(long l);
+		void setTown1(Town* town1);
+		void setTown2(Town* town2);
+		void setHasBridge(bool hasBridge);
 
 	private:
 		int _index;

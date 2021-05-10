@@ -33,16 +33,17 @@ int main() {
 		}
 
 		cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-			<< "p - print;" << endl;
+			<< "p - print;" << endl;	//this
 		std::cin >> c;
 		
 		switch (c) {
 		case 'p': network.print();		break;
+			//more cases
 		}
 
 		if (c != 'p') {
 			cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-				<< "p - print;" << endl;
+				<< "p - print;" << endl;	//this
 		}
 	}
 

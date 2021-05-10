@@ -3,9 +3,7 @@
 #define ROAD_H
 
 #include <string>
-#include <vector>
 using std::string;
-using std::vector;
 
 class Road {
 

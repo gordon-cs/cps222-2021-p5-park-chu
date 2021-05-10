@@ -1,0 +1,44 @@
+  
+# Binary files
+project4
+unittest
+BTree_test
+BTreeTest_instructor
+BTree_test_instructor
+project4_instructor
+
+# files created by manual tests
+*level.tree
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Emacs temp files
+*~

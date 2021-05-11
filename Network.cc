@@ -4,10 +4,14 @@
 #include "Town.h"
 #include <iostream>
 #include <queue>
+#include <map>
+#include <stack>
 using std::cin;
 using std::cout;
 using std::endl;
 using std::queue;
+using std::map;
+using std::stack;
 
 //consttructor
 Network::Network()
@@ -58,6 +62,7 @@ void Network::addRoadToTown(string name, int i) {
 	_towns[index].addRoad(i);
 }
 
+//Accessor
 void Network::addRoad(int i, float l, string town1, string town2, bool hasBridge) {
 	Road newRoad;
 	newRoad.setIndex(i);
@@ -68,7 +73,6 @@ void Network::addRoad(int i, float l, string town1, string town2, bool hasBridge
 	_roads.push_back(newRoad);
 }
 
-//Accessor
 void Network::getTown(string name) {
 	int index = 0;
 	while (_towns[index].getName() != name) {
@@ -78,6 +82,18 @@ void Network::getTown(string name) {
 }
 void Network::getRoad(int i) {
 	thisRoad = &_roads[i];
+}
+
+int Network::getTownSize() {
+	return _towns.size();
+}
+
+bool Network::isInTown(string x) {
+	for (int i = 0; i < _towns.size(); i++) {
+		if (_towns[i].getName() == x)
+			return true;
+	}
+	return false;
 }
 
 //Print
@@ -128,4 +144,88 @@ void Network::print() {
 		}
 		
 	} while (!connectTowns.empty());
+}
+
+void Network::printShortest() {
+	vector<string> orderTowns;
+	string temp;
+	string name = _towns[0].getName();	//name of the capital
+	int currentIndex;
+
+	//sort other towns in alphabetical order
+	orderTowns.push_back(name);
+	for (int i = 0; i < getTownSize(); i++) {
+		getTown(_towns[i].getName());
+		if (thisTown->getName() != name) {
+			orderTowns.push_back(thisTown->getName());
+			currentIndex = orderTowns.size() - 1;
+			while (currentIndex > 1 &&
+				orderTowns[currentIndex] < orderTowns[currentIndex - 1]) {
+				temp = orderTowns[currentIndex];
+				orderTowns[currentIndex] = orderTowns[currentIndex - 1];
+				orderTowns[currentIndex - 1] = temp;
+				currentIndex--;
+			}
+		}
+	}
+
+	//use Dijkstra's algorithm to find the shortest path
+	map<string, float> townDistance;	//-1 as INF
+	string connectTown;
+
+	townDistance.insert(std::pair<string, int>(name, 0));
+	for (int i = 1; i < orderTowns.size(); i++) {
+		townDistance.insert(std::pair<string, int>(orderTowns[i], -1));
+	}
+
+	for (int i = 0; i < orderTowns.size(); i++) {
+		getTown(orderTowns[i]);
+		for (int j = 0; j < thisTown->getRoadSize(); j++) {
+			getRoad(thisTown->getRoad(j));
+			connectTown = (thisRoad->getTown1() == thisTown->getName() ?
+				thisRoad->getTown2() : thisRoad->getTown1());
+			
+			if (townDistance[connectTown] == -1 || townDistance[connectTown] >
+				townDistance[thisTown->getName()] + thisRoad->getLength()) {
+				townDistance[connectTown] = townDistance[thisTown->getName()] + thisRoad->getLength();
+			}
+		}
+	}
+
+	//print out
+	float count;
+	stack<string> track;
+
+	cout << "The shortest paths from " << name << " are:" << endl;
+	cout << endl;
+
+	for (int i = 1; i < orderTowns.size(); i++) {
+		cout << "    The shortest path from " << name << " to " << orderTowns[i] << " is "
+			<< townDistance[orderTowns[i]] << " mi:" << endl;
+
+		//print track
+		getTown(orderTowns[i]);
+		track.push(orderTowns[i]);
+		count = townDistance[orderTowns[i]];
+
+		while (count != 0) {
+			for (int j = 0; j < thisTown->getRoadSize(); j++) {
+				getRoad(thisTown->getRoad(j));
+				connectTown = (thisRoad->getTown1() == thisTown->getName() ?
+					thisRoad->getTown2() : thisRoad->getTown1());
+
+				if (townDistance[connectTown] == count - thisRoad->getLength()) {
+					count -= thisRoad->getLength();
+					track.push(connectTown);
+					getTown(connectTown);
+					break;
+				}
+			}
+		}
+
+		while (!track.empty()) {
+			cout << "        " << track.top() << endl;;
+			track.pop();
+		}
+	}
 }

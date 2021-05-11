@@ -28,8 +28,12 @@ public:
 	void getTown(string name);	//use name to find the town
 	void getRoad(int i);	//use index to find the road
 
+	int getTownSize();	//return size of _towns
+	bool isInTown(string x); //check town name x is in _towns
+
 	//Print
 	void print();		//print all roads and towns
+	void printShortest();	//print shortest distance between two towns
 
 	//Public Variables
 	Town* thisTown;

@@ -19,6 +19,7 @@ int main() {
 		// Check for eof, without changing input
 		char c;
 		std::cin >> c;
+		
 		if (std::cin.eof()) {
 			done = true;
 		}
@@ -32,18 +33,22 @@ int main() {
 			isInput = true;
 		}
 
-		cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-			<< "p - print;" << endl;	//this
-		std::cin >> c;
 		
+		cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
+			<< "p - print; s - print shortest path from capital;" << endl;	//this
+			
+		std::cin >> c;
+
 		switch (c) {
 		case 'p': network.print();		break;
+		case 's': network.printShortest();		break;
 			//more cases
 		}
 
-		if (c != 'p') {
+		
+		if (c != 'p' && c != 's') {
 			cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-				<< "p - print;" << endl;	//this
+				<< "p - print; s - print shortest path from capital;" << endl;	//this		
 		}
 	}
 

@@ -34,6 +34,7 @@ public:
 	//Print
 	void print();		//print all roads and towns
 	void printShortest();	//print shortest distance between two towns
+	void printStormIsolation(); //print the isolated group(s) during a strom event
 
 	//Public Variables
 	Town* thisTown;

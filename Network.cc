@@ -224,8 +224,111 @@ void Network::printShortest() {
 		}
 
 		while (!track.empty()) {
-			cout << "        " << track.top() << endl;;
+			cout << "        " << track.top() << endl;
 			track.pop();
 		}
+	}
+}
+
+void Network::printStormIsolation() {
+	map<string, int> groups;
+	vector<string> arrivedTowns;
+	queue<string> connectTowns;
+	bool hasArrived;
+	int count = 0;
+	int groupCount = 0;
+
+	//initiate groups
+	for (int i = 0; i < getTownSize(); i++) {
+		groups.insert(std::pair<string, int>(_towns[i].getName(), -1));
+	}
+
+	//sorting
+	getTown(_towns[0].getName());
+	while (count <= _towns.size()) {
+
+		//check whether this town has been to before
+		hasArrived = false;
+		if (arrivedTowns.empty()) {
+			arrivedTowns.push_back(thisTown->getName());
+		}
+		else {
+			for (int i = 0; i < arrivedTowns.size(); i++) {
+				if (thisTown->getName() == arrivedTowns[i]) {
+					hasArrived = true;
+					break;
+				}
+			}
+			if (!hasArrived)
+				arrivedTowns.push_back(thisTown->getName());
+		}
+
+		if (!hasArrived) {
+			for (int j = 0; j < thisTown->getRoadSize(); j++) {
+				getRoad(thisTown->getRoad(j));
+				if (!thisRoad->getHasBridge()) {
+					connectTowns.push(thisRoad->getTown1() == thisTown->getName() ?
+						thisRoad->getTown2() : thisRoad->getTown1());
+				}
+			}
+		}
+
+		//Adding towns to different group in groups
+		bool isAdded;
+		bool hasAllArrived = true;
+
+		if (connectTowns.empty()) {
+			groups[thisTown->getName()] = groupCount;
+			for (int k = 0; k < getTownSize(); k++) {
+				if (groups[_towns[k].getName()] == -1) {
+					getTown(_towns[k].getName());
+					groups[thisTown->getName()] = ++groupCount;
+					hasAllArrived = false;
+					count++;
+					break;
+				}
+			}
+			if (hasAllArrived) {
+				break;
+			}
+		}
+		else {
+			if (!hasArrived) {
+				groups[thisTown->getName()] = groupCount;
+				count++;
+			}
+			getTown(connectTowns.front());
+			connectTowns.pop();
+		}
+	}
+
+	//print out
+	vector<string> orderTowns;	//set every group of town in alphabetical order
+	int currentIndex;
+	string temp;
+
+	cout << "Connected components in event of a major storm are:" << endl;
+
+	for (int i = 0; i <= groupCount; i++) {
+		for (int j = 0; j < groups.size(); j++) {
+			if (groups[_towns[j].getName()] == i) {
+				orderTowns.push_back(_towns[j].getName());
+				currentIndex = orderTowns.size() - 1;
+				while (currentIndex > 0 &&
+					(orderTowns[currentIndex] < orderTowns[currentIndex - 1] || j == 0) &&
+					orderTowns[currentIndex - 1] != _towns[0].getName()) {
+					temp = orderTowns[currentIndex];
+					orderTowns[currentIndex] = orderTowns[currentIndex - 1];
+					orderTowns[currentIndex - 1] = temp;
+					currentIndex--;
+				}
+			}
+		}
+		cout << "   If all bridges fail, the following towns would form an isolated group:" << endl;
+		for (int j = 0; j < orderTowns.size(); j++) {
+			cout << "        " << orderTowns[j] << endl;
+		}
+		cout << endl;
+		orderTowns.clear();
 	}
 }

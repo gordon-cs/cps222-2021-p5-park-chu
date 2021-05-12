@@ -35,20 +35,21 @@ int main() {
 
 		
 		cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-			<< "p - print; s - print shortest path from capital;" << endl;	//this
+			<< "p - print; s - print shortest path from capital; i - isolation" << endl;	//this
 			
 		std::cin >> c;
 
 		switch (c) {
 		case 'p': network.print();		break;
 		case 's': network.printShortest();		break;
+		case 'i': network.printStormIsolation();	break;
 			//more cases
 		}
 
 		
-		if (c != 'p' && c != 's') {
+		if (c != 'p' && c != 's' && c != 'i') {
 			cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-				<< "p - print; s - print shortest path from capital;" << endl;	//this		
+				<< "p - print; s - print shortest path from capital; i - isolation" << endl;	//this		
 		}
 	}
 

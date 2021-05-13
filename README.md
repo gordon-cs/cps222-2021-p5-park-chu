@@ -1,5 +1,5 @@
 # CPS222 SPRING 2021 Project5 Submission
-## NAME: HYUNGYU PARK
+## NAME: HYUNGYU PARK, KEVIN CHU
 ## DATE: MAY 12, 2021
 
 ### What we did in this project3?

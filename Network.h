@@ -29,11 +29,13 @@ public:
 	void getRoad(int i);	//use index to find the road
 
 	int getTownSize();	//return size of _towns
+	int getRoadSize();	//return size of _roads
 	bool isInTown(string x); //check town name x is in _towns
 
 	//Print
 	void print();		//print all roads and towns
 	void printShortest();	//print shortest distance between two towns
+	void printMST();		//print MST
 	void printStormIsolation(); //print the isolated group(s) during a strom event
 
 	//Public Variables

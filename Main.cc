@@ -33,24 +33,23 @@ int main() {
 			isInput = true;
 		}
 
-		
-		cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-			<< "p - print; s - print shortest path from capital; i - isolation" << endl;	//this
-			
-		std::cin >> c;
+		network.print();
+		cout << endl;
+		cout << "-------------------------------------------------------------------------" <<endl;
+		cout << endl;
+		network.printShortest();
+		cout << endl;
+		cout << "-------------------------------------------------------------------------" <<endl;
+		cout << endl;
+		network.printMST();
+		cout << endl;
+		cout << "-------------------------------------------------------------------------" <<endl;
+		cout << endl;
+		network.printStormIsolation();
+		cout << endl;
+		cout << "End of Report" << endl;
 
-		switch (c) {
-		case 'p': network.print();		break;
-		case 's': network.printShortest();		break;
-		case 'i': network.printStormIsolation();	break;
-			//more cases
-		}
-
-		
-		if (c != 'p' && c != 's' && c != 'i') {
-			cout << ESC << "[f" << ESC << "[2J"	 //set cursor to (0, 0) and clear
-				<< "p - print; s - print shortest path from capital; i - isolation" << endl;	//this		
-		}
+		done = true;
 	}
 
 	return 0;

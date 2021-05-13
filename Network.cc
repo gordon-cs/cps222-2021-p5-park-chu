@@ -3,9 +3,10 @@
 #include "Road.h"
 #include "Town.h"
 #include <iostream>
+#include <vector>
 #include <queue>
-#include <map>
 #include <stack>
+#include <map>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -86,6 +87,10 @@ void Network::getRoad(int i) {
 
 int Network::getTownSize() {
 	return _towns.size();
+}
+
+int Network::getRoadSize() {
+	return _roads.size();
 }
 
 bool Network::isInTown(string x) {
@@ -227,6 +232,107 @@ void Network::printShortest() {
 			cout << "        " << track.top() << endl;
 			track.pop();
 		}
+	}
+}
+
+void Network::printMST() {
+	vector <int> orderRoads;
+	int currentIndex;
+	int temp;
+	Road* previousRoad;
+	Road* currentRoad;
+
+	//sort road; from shortest road to longest road
+	for (int i = 0; i < getRoadSize(); i++) {
+		getRoad(_roads[i].getIndex());
+
+		orderRoads.push_back(thisRoad->getIndex());
+		currentIndex = orderRoads.size() - 1;
+		currentRoad = &_roads[orderRoads[currentIndex]];
+		previousRoad = &_roads[orderRoads[currentIndex - 1]];
+
+		while ( currentIndex > 0 && 
+			currentRoad->getLength() < previousRoad->getLength()) {
+				temp = orderRoads[currentIndex];
+				orderRoads[currentIndex] = orderRoads[currentIndex -1];
+				orderRoads[currentIndex - 1] = temp;
+				currentIndex --;
+				currentRoad = &_roads[orderRoads[currentIndex]];
+				previousRoad = &_roads[orderRoads[currentIndex - 1]];
+			}
+	}
+
+	// print MST - Kruskal's Algorithm
+	map <string, int> group;
+	queue <int> track;
+	int count = 0;
+	int groupCount = -1;
+	int alterCount;
+	int alteredCount;
+	string town1;
+	string town2;
+
+	//initiate groups
+	for (int i = 0; i < getTownSize(); i++) {
+		group.insert(std::pair<string, int> (_towns[i].getName(), -1));
+	}
+
+	getTown(_towns[0].getName());
+	for (int i = 0; i < orderRoads.size(); i++) {
+		getRoad(orderRoads[i]);
+		town1 = thisRoad->getTown1();
+		town2 = thisRoad->getTown2();
+		
+		if ((group[town1] == -1 && group[town2] == -1) || (group[town1] != group[town2])) {
+			if ((group[town1] == -1 && group [town2] != -1)
+				|| (group[town1] != -1 && group [town2] == -1)) {
+
+				alterCount = (group[town1] == -1 ? group[town2] : group[town1]);
+
+				if (group[town1] == -1) {
+					group[town1] = alterCount;
+				}
+
+				else {
+					group[town2] = alterCount;
+				}
+
+				track.push(thisRoad->getIndex());
+			}
+
+			else if (group[town1] != -1 && group [town2] != -1) {
+				alterCount = group[town1];
+				alteredCount = group[town2];
+
+				track.push(thisRoad->getIndex());
+				
+				for (i = 0; i < _towns.size(); i++) {
+					if (group[_towns[i].getName()] == alteredCount) {
+						group[_towns[i].getName()] = alterCount;
+					}
+				}
+			}
+
+			else {
+				groupCount ++;
+				group[town1] = groupCount;
+				group[town2] = groupCount;
+				track.push(thisRoad->getIndex());
+			}
+		}
+	}
+	
+	cout << "The road upgrading goal can be achieved at minimal cost by upgrading:" << endl;
+
+	while (! track.empty()) {
+		 getRoad(track.front());
+		 cout << "    "
+		 	  << thisRoad->getTown1()
+			  << " to "
+			  << thisRoad->getTown2()
+			  << endl;
+
+		 track.pop();
 	}
 }
 
